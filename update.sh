@@ -13,7 +13,7 @@ mirrors=(
 
 # https://www.kernel.org/
 kernelBase='5.10'
-dockerBase='20.10'
+dockerBase='19.03'
 # https://github.com/boot2docker/boot2docker/issues/1398
 # https://download.virtualbox.org/virtualbox/
 vboxBase='6'

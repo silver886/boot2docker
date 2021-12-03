@@ -3,7 +3,6 @@ name: Continuous update
 on:
   schedule:
     - cron: 0 0 * * *
-  workflow_dispatch:
 
 jobs:
   continuous-update:
@@ -15,8 +14,6 @@ jobs:
         run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Prepare Environment
-        run: echo hello
       - name: Update Dockerfile
         run: ./update.sh
       - name: Create Pull Request
