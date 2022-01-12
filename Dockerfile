@@ -453,7 +453,7 @@ RUN { \
 		echo "VERSION=$DOCKER_VERSION"; \
 		echo 'ID=boot2docker'; \
 		echo 'ID_LIKE=tcl'; \
-		echo "VERSION_ID=$DOCKER_VERSION"; \
+		echo "VERSION_ID=$TCL_VERSION"; \
 		echo "PRETTY_NAME=\"Boot2Docker $DOCKER_VERSION (TCL $TCL_VERSION)\""; \
 		echo 'ANSI_COLOR="1;34"'; \
 		echo 'HOME_URL="https://github.com/silver886/boot2docker"'; \
