@@ -6,6 +6,10 @@ on:
   schedule:
     - cron: 0 0 * * 0
   workflow_call:
+    inputs:
+      git_sha:
+        required: false
+        type: string
 
 jobs:
   build-test:
@@ -13,6 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
         with:
+          ref: ${{ inputs.git_sha }}
           fetch-depth: 1
       - name: Prepare Environment
         run: docker system prune --all --force --volumes

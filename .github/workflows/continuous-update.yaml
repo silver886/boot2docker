@@ -44,5 +44,4 @@ jobs:
     needs: continuous-update
     uses: ./.github/workflows/ci.yaml
     with:
-      GITHUB_REF: "refs/pull/${{ needs.continuous-update.outputs.pull-request-number }}/merge"
-      GITHUB_SHA: ${{ needs.continuous-update.outputs.pull-request-head-sha }}
+      git_sha: ${{ needs.continuous-update.outputs.pull-request-head-sha }}
