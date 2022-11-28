@@ -3,6 +3,7 @@ name: Continuous update
 on:
   schedule:
     - cron: 0 0 * * *
+  workflow_call:
 
 jobs:
   continuous-update:
@@ -11,6 +12,11 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
+    outputs:
+      pull-request-number: ${{ steps.pr.output.pull-request-number }}
+      pull-request-url: ${{ steps.pr.output.pull-request-url }}
+      pull-request-operation: ${{ steps.pr.output.pull-request-operation }}
+      pull-request-head-sha: ${{ steps.pr.output.pull-request-head-sha }}
     steps:
       - name: Get current date
         id: date
@@ -20,6 +26,7 @@ jobs:
       - name: Update Dockerfile
         run: ./update.sh
       - name: Create Pull Request
+        id: pr
         uses: peter-evans/create-pull-request@v3
         with:
           commit-message: Update on ${{steps.date.outputs.date}}
@@ -31,3 +38,11 @@ jobs:
           branch-suffix: timestamp
           delete-branch: true
           reviewers: silver886
+
+  ci:
+    name: CI
+    needs: continuous-update
+    uses: ./.github/workflows/ci.yaml
+    with:
+      GITHUB_REF: "refs/pull/${{ needs.continuous-update.outputs.pull-request-number }}/merge"
+      GITHUB_SHA: ${{ needs.continuous-update.outputs.pull-request-head-sha }}
