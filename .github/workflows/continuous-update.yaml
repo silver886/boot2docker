@@ -3,6 +3,7 @@ name: Continuous update
 on:
   schedule:
     - cron: 0 0 * * *
+  workflow_dispatch:
 
 jobs:
   continuous-update:
@@ -14,14 +15,21 @@ jobs:
     steps:
       - name: Get current date
         id: date
-        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+        run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Update Dockerfile
         run: ./update.sh
+      - name: Create Token
+        id: token
+        uses: getsentry/action-github-app-token@v1
+        with:
+          app_id: ${{ secrets.GH_APP_ID }}
+          private_key: ${{ secrets.GH_APP_PRIVATE_KEY }}
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
+          token: ${{ steps.token.outputs.token }}
           commit-message: Update on ${{steps.date.outputs.date}}
           title: Continuous update on ${{steps.date.outputs.date}}
           body: |
