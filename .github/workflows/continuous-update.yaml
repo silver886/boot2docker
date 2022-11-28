@@ -22,7 +22,7 @@ jobs:
         run: ./update.sh
       - name: Create Token
         id: token
-        uses: getsentry/action-github-app-token@v2
+        uses: getsentry/action-github-app-token@v1
         with:
           app_id: ${{ secrets.GH_APP_ID }}
           private_key: ${{ secrets.GH_APP_PRIVATE_KEY }}
