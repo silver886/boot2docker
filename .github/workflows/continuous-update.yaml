@@ -13,10 +13,10 @@ jobs:
       contents: write
       pull-requests: write
     outputs:
-      pull-request-number: ${{ steps.pr.output.pull-request-number }}
-      pull-request-url: ${{ steps.pr.output.pull-request-url }}
-      pull-request-operation: ${{ steps.pr.output.pull-request-operation }}
-      pull-request-head-sha: ${{ steps.pr.output.pull-request-head-sha }}
+      pull-request-number: ${{ steps.pr.outputs.pull-request-number }}
+      pull-request-url: ${{ steps.pr.outputs.pull-request-url }}
+      pull-request-operation: ${{ steps.pr.outputs.pull-request-operation }}
+      pull-request-head-sha: ${{ steps.pr.outputs.pull-request-head-sha }}
     steps:
       - name: Get current date
         id: date
