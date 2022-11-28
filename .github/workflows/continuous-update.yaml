@@ -3,7 +3,7 @@ name: Continuous update
 on:
   schedule:
     - cron: 0 0 * * *
-  workflow_call:
+  workflow_dispatch:
 
 jobs:
   continuous-update:
