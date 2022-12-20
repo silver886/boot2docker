@@ -184,7 +184,7 @@ ENV LINUX_GPG_KEYS \
 		647F28654894E3BD457199BE38DBBDC86092693E
 
 # updated via "update.sh"
-ENV LINUX_VERSION 5.15.83
+ENV LINUX_VERSION 5.15.84
 
 RUN wget -O /linux.tar.xz "https://cdn.kernel.org/pub/linux/kernel/v${LINUX_VERSION%%.*}.x/linux-${LINUX_VERSION}.tar.xz"; \
 	wget -O /linux.tar.asc "https://cdn.kernel.org/pub/linux/kernel/v${LINUX_VERSION%%.*}.x/linux-${LINUX_VERSION}.tar.sign"; \
@@ -391,7 +391,7 @@ RUN cp -vr /usr/src/parallels/tools/* ./; \
 
 # https://github.com/xenserver/xe-guest-utilities/tags
 # updated via "update.sh"
-ENV XEN_VERSION 7.31.0
+ENV XEN_VERSION 7.32.0
 
 RUN wget -O /xen.tgz "https://github.com/xenserver/xe-guest-utilities/archive/v$XEN_VERSION.tar.gz"; \
 	mkdir /usr/src/xen; \
