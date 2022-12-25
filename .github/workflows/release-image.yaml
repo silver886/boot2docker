@@ -14,7 +14,7 @@ jobs:
       contents: write
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: silver886/github-actions/checkout@master
       - name: Prepare environment
         run: docker system prune --all --force --volumes
       - name: Happy Eyeballs
@@ -43,7 +43,7 @@ jobs:
       - name: '"docker images"'
         run: docker images
       - name: Release
-        uses: softprops/action-gh-release@v1
+        uses: silver886/github-actions/create/release@master
         with:
           files: boot2docker.iso
           body_path: release.md
