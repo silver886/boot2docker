@@ -37,7 +37,7 @@ fi
 
 kernelLatest="$(
 	wget -qO- 'https://www.kernel.org/releases.json' \
-		| jq -r '[.releases[] | select(.moniker == "longterm")] | sort_by(.released.timestamp) | reverse | .[0].version'
+		| jq -r '[.releases[] | select(.moniker == "longterm")] | sort_by(.version | split(".") | map(tonumber)) | reverse | .[0].version'
 )"
 if ! [[ $kernelLatest =~ ^$kernelBase[0-9.]+ ]]; then
 	echo "Linux Kernel has an update! ($kernelLatest)"
@@ -46,7 +46,7 @@ fi
 
 dockerLatest="$(
 	wget -qO- 'https://api.github.com/repos/moby/moby/releases' \
-		| jq -r '[.[] | select(.prerelease | not)] | sort_by(.publish_at) | .[0].name'
+		| jq -r '[.[] | select(.prerelease | not)] | sort_by(.tag_name | sub("^v"; "") | split(".") | map(tonumber)) | reverse | .[0].tag_name'
 )"
 if ! [[ $dockerLatest =~ ^v$dockerBase[0-9.]+ ]]; then
 	echo "Docker has an update! ($dockerLatest)"
