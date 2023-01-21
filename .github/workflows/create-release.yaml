@@ -10,6 +10,7 @@ jobs:
     name: Create release
     permissions:
       contents: write
+      pull-requests: read
     uses: silver886/github-actions/.github/workflows/create-release.yaml@master
 
   release-package:

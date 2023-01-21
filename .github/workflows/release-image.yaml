@@ -43,7 +43,8 @@ jobs:
       - name: '"docker images"'
         run: docker images
       - name: Release
-        uses: silver886/github-actions/create/release@master
+        uses: silver886/github-actions/update/release@master
         with:
+          tag: ${{ github.ref_name }}
           files: boot2docker.iso
           body_path: release.md
