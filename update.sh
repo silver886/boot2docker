@@ -17,7 +17,7 @@ dockerBase='20.10'
 # https://github.com/plougher/squashfs-tools/releases
 squashfsBase='4'
 # https://download.virtualbox.org/virtualbox/
-vboxBase='6'
+vboxBase='7'
 # https://www.parallels.com/products/desktop/download/
 parallelsBase='18'
 # https://github.com/bcicen/ctop/releases
