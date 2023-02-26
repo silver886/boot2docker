@@ -15,9 +15,9 @@ kernelBase='5.15'
 # https://download.docker.com/linux/static/stable/x86_64/
 dockerBase='23.0'
 # https://github.com/plougher/squashfs-tools/releases
-squashfsBase='4'
+squashfsBase='4.5'
 # https://download.virtualbox.org/virtualbox/
-vboxBase='7'
+vboxBase='7.0'
 # https://www.parallels.com/products/desktop/download/
 parallelsBase='18'
 # https://github.com/bcicen/ctop/releases
