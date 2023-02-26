@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
-# http://tinycorelinux.net/
+# https://tinycorelinux.net/
 major='13.x'
 version='13.1'
 
 mirrors=(
-	http://distro.ibiblio.org/tinycorelinux
-	http://repo.tinycorelinux.net
+	https://distro.ibiblio.org/tinycorelinux
+	https://repo.tinycorelinux.net
 )
 
 # https://www.kernel.org/
@@ -29,7 +29,7 @@ export GIT_HTTP_LOW_SPEED_TIME='2'
 # ... or servers being down
 wget() { command wget --timeout=2 "$@" -o /dev/null; }
 
-tclLatest="$(wget -qO- 'http://distro.ibiblio.org/tinycorelinux/latest-x86_64')"
+tclLatest="$(wget -qO- 'https://distro.ibiblio.org/tinycorelinux/latest-x86_64')"
 if [ $tclLatest != $version ]; then
 	echo "Tiny Core Linux has an update! ($tclLatest)"
 	exit 1
