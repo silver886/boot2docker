@@ -486,11 +486,11 @@ RUN { \
 		echo "server $num.boot2docker.pool.ntp.org"; \
 	done > etc/ntp.conf; \
 	rm -v etc/sysconfig/ntpserver; \
-	sed -i "s|\$(grep '^VERSION_ID=' /etc/os-release)|VERSION_ID=12.0|g" etc/init.d/tc-functions
+	sed -i "s|\$(grep '^VERSION_ID=' /etc/os-release)|VERSION_ID=$TCL_VERSION|g" etc/init.d/tc-functions
 
 # fix tce-load
 RUN mv etc/init.d/tc-functions etc/init.d/tc-functions.orig; \
-	sed "s|\$(grep '^VERSION_ID=' /etc/os-release)|VERSION_ID=12.0|g" \
+	sed "s|\$(grep '^VERSION_ID=' /etc/os-release)|VERSION_ID=$TCL_VERSION|g" \
 		etc/init.d/tc-functions.orig \
 		> etc/init.d/tc-functions
 
