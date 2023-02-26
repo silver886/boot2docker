@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
-# https://tinycorelinux.net/
+# http://tinycorelinux.net/
 major='13.x'
 version='13.1'
 
