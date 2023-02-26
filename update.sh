@@ -7,7 +7,6 @@ version='13.1'
 
 mirrors=(
 	https://distro.ibiblio.org/tinycorelinux
-	https://repo.tinycorelinux.net
 )
 
 # https://www.kernel.org/
