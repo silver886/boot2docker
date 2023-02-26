@@ -71,8 +71,6 @@ done
 
 /usr/local/etc/init.d/acpid start
 
-/opt/qemu-binfmt-conf.sh --qemu-path "/usr/bin" --qemu-suffix "-static" --persistent yes
-
 if [ -e /var/lib/boot2docker/bootsync.sh ]; then
 	sh /var/lib/boot2docker/bootsync.sh
 fi
