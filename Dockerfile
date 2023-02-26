@@ -41,7 +41,7 @@ RUN echo 'progress = dot:giga' >> ~/.wgetrc; \
 WORKDIR /rootfs
 
 # updated via "update.sh"
-ENV TCL_MIRRORS http://distro.ibiblio.org/tinycorelinux http://repo.tinycorelinux.net
+ENV TCL_MIRRORS https://distro.ibiblio.org/tinycorelinux https://repo.tinycorelinux.net
 ENV TCL_MAJOR 13.x
 ENV TCL_VERSION 13.1
 
@@ -184,7 +184,7 @@ ENV LINUX_GPG_KEYS \
 		647F28654894E3BD457199BE38DBBDC86092693E
 
 # updated via "update.sh"
-ENV LINUX_VERSION 5.15.95
+ENV LINUX_VERSION 6.1.14
 
 RUN wget -O /linux.tar.xz "https://cdn.kernel.org/pub/linux/kernel/v${LINUX_VERSION%%.*}.x/linux-${LINUX_VERSION}.tar.xz"; \
 	wget -O /linux.tar.asc "https://cdn.kernel.org/pub/linux/kernel/v${LINUX_VERSION%%.*}.x/linux-${LINUX_VERSION}.tar.sign"; \
