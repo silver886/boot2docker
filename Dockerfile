@@ -195,6 +195,8 @@ RUN wget -O /linux.tar.xz "https://cdn.kernel.org/pub/linux/kernel/v${LINUX_VERS
 # decompress (signature is for the decompressed file)
 	xz --decompress /linux.tar.xz; \
 	[ -f /linux.tar ] && [ ! -f /linux.tar.xz ]; \
+	nslookup keyserver.ubuntu.com || true ;\
+	ping -c5 keyserver.ubuntu.com || true ;\
 	\
 # verify
 	export GNUPGHOME="$(mktemp -d)"; \
@@ -203,14 +205,15 @@ RUN wget -O /linux.tar.xz "https://cdn.kernel.org/pub/linux/kernel/v${LINUX_VERS
 			ldap://keyserver-legacy.pgp.com \
 			hkps://keyring.debian.org \
 			hkps://keyserver.ubuntu.com \
-			hkp://pgp.surf.nl \
+			hkps://pgp.surf.nl \
 			hkp://pgp.rediris.es \
 			wget-https://keyserver.ubuntu.com/pks/lookup\?search=0x$key\&fingerprint=on\&op=get \
 			wget-https://pgp.surf.nl/pks/lookup\?search=0x$key\&fingerprint=on\&op=get \
 		; do \
 			if grep "^wget-" <<< "$mirror"; then \
-				wget -O- "$(sed -e 's|^wget-||g' <<< "$mirror")" | gpg --import; \
-				break; \
+				if wget -O- "$(sed -e 's|^wget-||g' <<< "$mirror")" | gpg --import; then \
+					break; \
+				fi; \
 			elif gpg --batch --verbose --keyserver "$mirror" --keyserver-options timeout=5 --recv-keys "$key"; then \
 				break; \
 			fi; \
