@@ -30,8 +30,6 @@ RUN apt-get update; \
 		wget \
 		xorriso \
 		xz-utils \
-		iputils-ping \
-		dnsutils \
 	; \
 	rm -rf /var/lib/apt/lists/*
 
@@ -197,12 +195,6 @@ RUN wget -O /linux.tar.xz "https://cdn.kernel.org/pub/linux/kernel/v${LINUX_VERS
 # decompress (signature is for the decompressed file)
 	xz --decompress /linux.tar.xz; \
 	[ -f /linux.tar ] && [ ! -f /linux.tar.xz ]; \
-	# cat /etc/resolv.conf ;\
-	# nslookup keyserver.ubuntu.com || true ;\
-	# ping -c5 keyserver.ubuntu.com || true ;\
-	# echo 'nameserver 1.1.1.1' > /etc/resolv.conf ;\
-	# nslookup keyserver.ubuntu.com || true ;\
-	# ping -c5 keyserver.ubuntu.com || true ;\
 	\
 # verify
 	export GNUPGHOME="$(mktemp -d)"; \
@@ -213,10 +205,11 @@ RUN wget -O /linux.tar.xz "https://cdn.kernel.org/pub/linux/kernel/v${LINUX_VERS
 			hkps://pgp.surf.nl \
 			wget-https://keyserver.ubuntu.com/pks/lookup\?search=0x$key\&fingerprint=on\&op=get \
 			wget-https://pgp.surf.nl/pks/lookup\?search=0x$key\&fingerprint=on\&op=get \
+			hkp://pgp.rediris.es \
+			hkp://keyserver.ubuntu.com \
+			hkp://keyserver.ubuntu.com:80 \
 			wget-http://keyserver.ubuntu.com/pks/lookup\?search=0x$key\&fingerprint=on\&op=get \
 			wget-http://pgp.surf.nl/pks/lookup\?search=0x$key\&fingerprint=on\&op=get \
-			hkp://pgp.rediris.es \
-			hkp://keyserver.ubuntu.com:80 \
 			ldap://keyserver-legacy.pgp.com \
 		; do \
 			if grep "^wget-" <<< "$mirror"; then \
