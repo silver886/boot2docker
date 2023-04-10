@@ -208,13 +208,16 @@ RUN wget -O /linux.tar.xz "https://cdn.kernel.org/pub/linux/kernel/v${LINUX_VERS
 	export GNUPGHOME="$(mktemp -d)"; \
 	for key in $LINUX_GPG_KEYS; do \
 		for mirror in \
-			ldap://keyserver-legacy.pgp.com \
 			hkps://keyring.debian.org \
 			hkps://keyserver.ubuntu.com \
 			hkps://pgp.surf.nl \
-			hkp://pgp.rediris.es \
 			wget-https://keyserver.ubuntu.com/pks/lookup\?search=0x$key\&fingerprint=on\&op=get \
 			wget-https://pgp.surf.nl/pks/lookup\?search=0x$key\&fingerprint=on\&op=get \
+			wget-http://keyserver.ubuntu.com/pks/lookup\?search=0x$key\&fingerprint=on\&op=get \
+			wget-http://pgp.surf.nl/pks/lookup\?search=0x$key\&fingerprint=on\&op=get \
+			hkp://pgp.rediris.es \
+			hkp://keyserver.ubuntu.com:80 \
+			ldap://keyserver-legacy.pgp.com \
 		; do \
 			if grep "^wget-" <<< "$mirror"; then \
 				if wget -O- "$(sed -e 's|^wget-||g' <<< "$mirror")" | gpg --import; then \
