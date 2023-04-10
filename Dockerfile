@@ -197,12 +197,12 @@ RUN wget -O /linux.tar.xz "https://cdn.kernel.org/pub/linux/kernel/v${LINUX_VERS
 # decompress (signature is for the decompressed file)
 	xz --decompress /linux.tar.xz; \
 	[ -f /linux.tar ] && [ ! -f /linux.tar.xz ]; \
-	cat /etc/resolv.conf ;\
-	nslookup keyserver.ubuntu.com || true ;\
-	ping -c5 keyserver.ubuntu.com || true ;\
-	echo 'nameserver 1.1.1.1' > /etc/resolv.conf ;\
-	nslookup keyserver.ubuntu.com || true ;\
-	ping -c5 keyserver.ubuntu.com || true ;\
+	# cat /etc/resolv.conf ;\
+	# nslookup keyserver.ubuntu.com || true ;\
+	# ping -c5 keyserver.ubuntu.com || true ;\
+	# echo 'nameserver 1.1.1.1' > /etc/resolv.conf ;\
+	# nslookup keyserver.ubuntu.com || true ;\
+	# ping -c5 keyserver.ubuntu.com || true ;\
 	\
 # verify
 	export GNUPGHOME="$(mktemp -d)"; \
