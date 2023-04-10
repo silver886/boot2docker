@@ -30,6 +30,8 @@ RUN apt-get update; \
 		wget \
 		xorriso \
 		xz-utils \
+		iputils-ping \
+		dnsutils \
 	; \
 	rm -rf /var/lib/apt/lists/*
 
