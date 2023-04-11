@@ -200,23 +200,25 @@ RUN wget -O /linux.tar.xz "https://cdn.kernel.org/pub/linux/kernel/v${LINUX_VERS
 	export GNUPGHOME="$(mktemp -d)"; \
 	for key in $LINUX_GPG_KEYS; do \
 		for mirror in \
-			hkps://keyring.debian.org \
-			hkps://keyserver.ubuntu.com \
-			hkps://pgp.surf.nl \
+			gpg-hkps://keyring.debian.org \
+			gpg-hkps://keyserver.ubuntu.com \
+			gpg-hkps://pgp.surf.nl \
 			wget-https://keyserver.ubuntu.com/pks/lookup\?search=0x$key\&fingerprint=on\&op=get \
 			wget-https://pgp.surf.nl/pks/lookup\?search=0x$key\&fingerprint=on\&op=get \
-			hkp://pgp.rediris.es \
-			hkp://keyserver.ubuntu.com \
-			hkp://keyserver.ubuntu.com:80 \
+			gpg-hkp://pgp.rediris.es \
+			gpg-hkp://keyserver.ubuntu.com \
+			gpg-hkp://keyserver.ubuntu.com:80 \
 			wget-http://keyserver.ubuntu.com/pks/lookup\?search=0x$key\&fingerprint=on\&op=get \
 			wget-http://pgp.surf.nl/pks/lookup\?search=0x$key\&fingerprint=on\&op=get \
-			ldap://keyserver-legacy.pgp.com \
+			gpg-ldap://keyserver-legacy.pgp.com \
 		; do \
-			if grep "^wget-" <<< "$mirror"; then \
-				if wget -O- "$(sed -e 's|^wget-||g' <<< "$mirror")" | gpg --import; then \
-					break; \
-				fi; \
-			elif gpg --batch --verbose --keyserver "$mirror" --keyserver-options timeout=5 --recv-keys "$key"; then \
+			if url=$(echo "$mirror" | grep "^gpg-"| sed -e 's|^gpg-||g') && \
+				gpg --batch --verbose --keyserver "$url" --keyserver-options timeout=5 --recv-keys "$key";\
+			then \
+				break; \
+			elif url=$(echo "$mirror" | grep "^wget-"| sed -e 's|^wget-||g') && \
+				wget -O- "$url" | gpg --import;\
+			then \
 				break; \
 			fi; \
 		done; \
