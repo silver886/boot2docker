@@ -213,11 +213,11 @@ RUN wget -O /linux.tar.xz "https://cdn.kernel.org/pub/linux/kernel/v${LINUX_VERS
 			gpg-ldap://keyserver-legacy.pgp.com \
 		; do \
 			if url=$(echo "$mirror" | grep "^gpg-"| sed -e 's|^gpg-||g') && \
-				gpg --batch --verbose --keyserver "$url" --keyserver-options timeout=5 --recv-keys "$key";\
+				gpg --batch --verbose --keyserver "$url" --keyserver-options timeout=5 --recv-keys "$key"; \
 			then \
 				break; \
 			elif url=$(echo "$mirror" | grep "^wget-"| sed -e 's|^wget-||g') && \
-				wget -O- "$url" | gpg --import;\
+				wget -O- "$url" | gpg --import; \
 			then \
 				break; \
 			fi; \
