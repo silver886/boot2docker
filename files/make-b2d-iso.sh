@@ -36,11 +36,11 @@ mkdir -p /tmp/stats
 
 	echo "- Linux [v$LINUX_VERSION](https://cdn.kernel.org/pub/linux/kernel/v${LINUX_VERSION%%.*}.x/ChangeLog-$LINUX_VERSION)"
 
-	echo "- Tiny Core Linux [v$TCL_VERSION](http://forum.tinycorelinux.net/index.php?board=31.0)"
+	echo "- Tiny Core Linux [v$TCL_VERSION](https://forum.tinycorelinux.net/index.php?board=31.0)"
 
 	echo "- Parallels Tools v$PARALLELS_VERSION" # https://github.com/boot2docker/boot2docker/pull/1332#issuecomment-420273330
 
-	ovtUrl="http://distro.ibiblio.org/tinycorelinux/$TCL_MAJOR/x86_64/tcz/open-vm-tools.tcz.info"
+	ovtUrl="https://distro.ibiblio.org/tinycorelinux/$TCL_MAJOR/x86_64/tcz/open-vm-tools.tcz.info"
 	ovtVersion="$(wget -O- $ovtUrl | grep ^Version: | sed -r -e 's/Version:\t//g' -e 's/ (.*)//g')"
 	echo "- VMware Tools (\`open-vm-tools\`) [v$ovtVersion]($ovtUrl)"
 

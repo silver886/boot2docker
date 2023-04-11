@@ -352,7 +352,7 @@ RUN echo 'for i in /usr/local/etc/profile.d/*.sh ; do if [ -r "$i" ]; then . $i;
 # install kernel headers so we can use them for building xen-utils, etc
 RUN make -C /usr/src/linux INSTALL_HDR_PATH=/usr/local headers_install
 
-# http://download.virtualbox.org/virtualbox/
+# https://download.virtualbox.org/virtualbox/
 # updated via "update.sh"
 ENV VBOX_VERSION 7.0.6
 # https://www.virtualbox.org/download/hashes/$VBOX_VERSION/SHA256SUMS

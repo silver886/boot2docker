@@ -1,6 +1,6 @@
 Description: DHCP adjustments; only empty "resolv.conf" when we get DNS from DHCP, run DHCP synchronously, use NTP servers from DHCP
 Author: "aheissenberger", Tianon Gravi
-Origin: http://forum.tinycorelinux.net/index.php/topic,16482.msg98078.html#msg98078 (partial)
+Origin: https://forum.tinycorelinux.net/index.php/topic,16482.msg98078.html#msg98078 (partial)
 
 diff --git a/etc/init.d/dhcp.sh b/etc/init.d/dhcp.sh
 index f4ef2a4..c7b59fd 100755
@@ -27,7 +27,7 @@ index f1f9785..0a5088a 100755
 +	[ -z "$DHCP_RAN" ] && /etc/init.d/dhcp.sh
  	[ -z "$NORTC" ] || /etc/init.d/settime.sh &
  fi
- 
+
 diff --git a/usr/share/udhcpc/default.script b/usr/share/udhcpc/default.script
 index 98ebc15..ab71278 100755
 --- a/usr/share/udhcpc/default.script
@@ -35,7 +35,7 @@ index 98ebc15..ab71278 100755
 @@ -28,12 +28,22 @@ case "$1" in
  			done
  		fi
- 
+
 -		echo -n > $RESOLV_CONF
 +		[ -n "$dns" ] && echo -n > $RESOLV_CONF
  		[ -n "$domain" ] && echo search $domain >> $RESOLV_CONF
@@ -55,4 +55,3 @@ index 98ebc15..ab71278 100755
 +		fi
  		;;
  esac
- 
