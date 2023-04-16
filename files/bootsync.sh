@@ -54,6 +54,9 @@ if modprobe hv_utils > /dev/null 2>&1; then
 fi
 /usr/local/etc/init.d/prltoolsd start
 /etc/init.d/xe-linux-distribution start
+if grep -qi qemu /sys/class/dmi/id/sys_vendor 2>/dev/null; then
+	qemu-ga --daemonize -m virtio-serial -p /dev/virtio-ports/org.qemu.guest_agent.0
+fi
 
 if [ -d /var/lib/boot2docker/ssh ]; then
 	rm -rf /usr/local/etc/ssh

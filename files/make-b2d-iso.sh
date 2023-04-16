@@ -47,4 +47,8 @@ mkdir -p /tmp/stats
 	echo "- VirtualBox Guest Additions [v$VBOX_VERSION](https://download.virtualbox.org/virtualbox/$VBOX_VERSION/)"
 
 	echo "- XenServer Tools (\`xe-guest-utilities\`) [v$XEN_VERSION](https://github.com/xenserver/xe-guest-utilities/tree/v$XEN_VERSION)"
+
+	qemuUrl="https://distro.ibiblio.org/tinycorelinux/$TCL_MAJOR/x86_64/tcz/qemu.tcz.info"
+	qemuVersion="$(wget -O- $qemuUrl | grep ^Version: | sed -r -e 's/Version:|\s//g')"
+	echo "- QEMU Guest Agent (\`qemu\`) [v$qemuVersion]($qemuUrl)"
 } | tee /tmp/stats/state.md

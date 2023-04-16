@@ -420,6 +420,23 @@ RUN make -C /usr/src/linux/tools/hv hv_kvp_daemon; \
 	cp /usr/src/linux/tools/hv/hv_kvp_daemon usr/local/sbin/; \
 	tcl-chroot hv_kvp_daemon --help || [ "$?" = 1 ]
 
+# TCL includes QEMU's guest agent 2.0.2+ (no reason to compile that ourselves)
+RUN qemuTemp="$(mktemp -d)"; \
+	pushd "$qemuTemp"; \
+	for mirror in $TCL_MIRRORS; do \
+		if wget -O qemu.tcz "$mirror/$TCL_MAJOR/x86_64/tcz/qemu.tcz" && \
+			wget -O- "$mirror/$TCL_MAJOR/x86_64/tcz/qemu.tcz.md5.txt" | md5sum -c -; \
+		then \
+			break; \
+		fi; \
+	done; \
+	wget -O- "$mirror/$TCL_MAJOR/x86_64/tcz/qemu.tcz.md5.txt" | md5sum -c -; \
+	unsquashfs -f -d . qemu.tcz /usr/local/bin/qemu-ga; \
+	popd; \
+	cp "$qemuTemp/usr/local/bin/qemu-ga" usr/local/bin/; \
+	rm -rf "$qemuTemp"; \
+	tcl-chroot qemu-ga --help || [ "$?" = 1 ]
+
 # scan all built modules for kernel loading
 RUN tcl-chroot depmod "$(< /usr/src/linux/include/config/kernel.release)"
 
