@@ -437,6 +437,11 @@ RUN qemuTemp="$(mktemp -d)"; \
 	rm -rf "$qemuTemp"; \
 	tcl-chroot qemu-ga --help || [ "$?" = 1 ]
 
+# TCL includes SPICE's agent 0.16.0+ (no reason to compile that ourselves)
+RUN tcl-tce-load spice-vdagent; \
+	tcl-chroot spice-vdagentd -h || [ "$?" = 1 ]; \
+	tcl-chroot spice-vdagent -h || [ "$?" = 1 ]
+
 # scan all built modules for kernel loading
 RUN tcl-chroot depmod "$(< /usr/src/linux/include/config/kernel.release)"
 

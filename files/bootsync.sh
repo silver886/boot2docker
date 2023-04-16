@@ -57,6 +57,10 @@ fi
 if grep -qi qemu /sys/class/dmi/id/sys_vendor 2>/dev/null; then
 	qemu-ga --daemonize -m virtio-serial -p /dev/virtio-ports/org.qemu.guest_agent.0
 fi
+if modprobe uinput > /dev/null 2>&1; then
+	mkdir -p /var/run/spice-vdagentd
+	spice-vdagentd
+fi
 
 if [ -d /var/lib/boot2docker/ssh ]; then
 	rm -rf /usr/local/etc/ssh

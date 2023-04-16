@@ -52,4 +52,8 @@ mkdir -p /tmp/stats
 	qemuUrl="https://distro.ibiblio.org/tinycorelinux/$TCL_MAJOR/x86_64/tcz/qemu.tcz.info"
 	qemuVersion="$(wget -O- $qemuUrl | grep ^Version: | sed -r -e 's/Version:|\s//g')"
 	echo "- QEMU Guest Agent (\`qemu\`) [v$qemuVersion]($qemuUrl)"
+
+	spiceUrl="https://distro.ibiblio.org/tinycorelinux/$TCL_MAJOR/x86_64/tcz/spice-vdagent.tcz.info"
+	spiceVersion="$(wget -O- $spiceUrl | grep ^Version: | sed -r -e 's/Version:|\s//g')"
+	echo "- Spice VM Guest Agent (\`spice-vdagent\`) [v$spiceVersion]($spiceUrl)"
 } | tee /tmp/stats/state.md
