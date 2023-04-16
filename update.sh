@@ -2,9 +2,8 @@
 set -Eeuo pipefail
 
 # http://tinycorelinux.net/
-major='13.x'
-version='13.1'
-
+major='14.x'
+version='14.0'
 mirrors=(
 	https://distro.ibiblio.org/tinycorelinux
 )
@@ -13,14 +12,6 @@ mirrors=(
 kernelBase='6.1'
 # https://download.docker.com/linux/static/stable/x86_64/
 dockerBase='23.0'
-# https://github.com/plougher/squashfs-tools/releases
-squashfsBase='4.5'
-# https://download.virtualbox.org/virtualbox/
-vboxBase='7.0'
-# https://www.parallels.com/products/desktop/download/
-parallelsBase='18'
-# https://github.com/bcicen/ctop/releases
-ctopBase='0.7'
 
 # avoid issues with slow Git HTTP interactions (*cough* sourceforge *cough*)
 export GIT_HTTP_LOW_SPEED_LIMIT='100'
@@ -49,17 +40,6 @@ dockerLatest="$(
 )"
 if ! [[ $dockerLatest =~ ^v$dockerBase[0-9.]+ ]]; then
 	echo "Docker has an update! ($dockerLatest)"
-	exit 1
-fi
-
-vboxLatest="$(wget -qO- 'https://download.virtualbox.org/virtualbox/LATEST-STABLE.TXT')"
-if ! [[ $vboxLatest =~ ^$vboxBase[0-9.]+ ]]; then
-	echo "VirtualBox has an update! ($vboxLatest)"
-	exit 1
-fi
-
-if ! wget -qO- --spider "https://www.parallels.com/directdownload/pd$parallelsBase/image/"; then
-	echo 'Parallels Desktop has an update!'
 	exit 1
 fi
 
@@ -94,7 +74,7 @@ rootfsMd5="$(
 )"
 rootfsMd5="${rootfsMd5%% *}"
 seds+=(
-	-e 's/^ENV TCL_ROOTFS.*/ENV TCL_ROOTFS="'"$rootfs"'" TCL_ROOTFS_MD5="'"$rootfsMd5"'"/'
+	-e 's!^ENV TCL_ROOTFS.*!ENV TCL_ROOTFS="'"$rootfs"'" TCL_ROOTFS_MD5="'"$rootfsMd5"'"!'
 )
 
 kernelVersion="$(
@@ -115,9 +95,13 @@ seds+=(
 )
 
 squashfsVersion="$(
-	wget -qO- 'https://api.github.com/repos/plougher/squashfs-tools/releases' \
-		| jq -r --arg base "$squashfsBase" '[.[] | .tag_name | select(startswith($base + "."))][0]' \
-		| sed -e 's!^v!!'
+	git ls-remote --tags 'https://github.com/plougher/squashfs-tools' \
+		| cut -d/ -f3 \
+		| cut -d^ -f1 \
+		| grep -E '^squashfs-tools-[[:digit:]]+' \
+		| cut -d- -f3- \
+		| sort -rV \
+		| head -1
 )"
 seds+=(
 	-e 's!^(ENV SQUASHFS_VERSION).*!\1 '"$squashfsVersion"'!'
@@ -127,8 +111,8 @@ seds+=(
 vboxVersion="$(
 	wget -qO- 'https://download.virtualbox.org/virtualbox/' \
 		| grep -oE 'href="[0-9.]+/?"' \
-		| cut -d'"' -f2 | cut -d/ -f1 \
-		| grep -E "^$vboxBase[.]" \
+		| cut -d'"' -f2 \
+		| cut -d/ -f1 \
 		| tail -1
 )"
 vboxSha256="$(
@@ -143,16 +127,19 @@ seds+=(
 )
 
 parallelsVersion="$(
-	$(which wget) -SO- --spider "https://www.parallels.com/directdownload/pd$parallelsBase/image/" 2>&1 >/dev/null \
-		| grep -oE 'https://download.parallels.com/desktop/.* \[following]' \
-		| sed -re 's|.*/([0-9.-]+)/.*|\1|'
+	wget -qO- "https://download.parallels.com/website_links/$(
+		wget -qO- https://download.parallels.com/website_links/desktop/index.json \
+			| jq -r 'to_entries | sort_by(.key) | reverse | .[0].value.builds.en_US'
+	)" \
+	| grep -E '.*ParallelsDesktop-([0-9.-]+).dmg.*' \
+	| sed -re 's|.*ParallelsDesktop-([0-9.-]+).dmg.*|\1|'
 )"
 seds+=(
 	-e 's!^(ENV PARALLELS_VERSION).*!\1 '"$parallelsVersion"'!'
 )
 
 xenVersion="$(
-	git ls-remote --tags 'https://github.com/xenserver/xe-guest-utilities.git' \
+	git ls-remote --tags 'https://github.com/xenserver/xe-guest-utilities' \
 		| cut -d/ -f3 \
 		| cut -d^ -f1 \
 		| grep -E '^v[[:digit:]]+' \
@@ -165,9 +152,13 @@ seds+=(
 )
 
 ctopVersion="$(
-	wget -qO- 'https://api.github.com/repos/bcicen/ctop/releases' \
-		| jq -r --arg base "v$ctopBase" '[.[] | .tag_name | select(startswith($base + "."))][0]' \
-		| sed -e 's!^v!!'
+	git ls-remote --tags 'https://github.com/bcicen/ctop' \
+		| cut -d/ -f3 \
+		| cut -d^ -f1 \
+		| grep -E '^v[[:digit:]]+' \
+		| cut -dv -f2- \
+		| sort -rV \
+		| head -1
 )"
 seds+=(
 	-e 's!^(ENV CTOP_VERSION).*!\1 '"$ctopVersion"'!'

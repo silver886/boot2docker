@@ -42,11 +42,11 @@ WORKDIR /rootfs
 
 # updated via "update.sh"
 ENV TCL_MIRRORS https://distro.ibiblio.org/tinycorelinux
-ENV TCL_MAJOR 13.x
-ENV TCL_VERSION 13.1
+ENV TCL_MAJOR 14.x
+ENV TCL_VERSION 14.0
 
 # updated via "update.sh"
-ENV TCL_ROOTFS="rootfs64.gz" TCL_ROOTFS_MD5="337441ac3eb75561a9d702d783e678ba"
+ENV TCL_ROOTFS="rootfs64.gz" TCL_ROOTFS_MD5="9b83cc61e606c631fa58dd401ee3f631"
 
 COPY files/tce-load.patch files/udhcpc.patch /tcl-patches/
 
@@ -126,12 +126,12 @@ RUN mkdir -p proc; \
 # as of squashfs-tools 4.4, TCL's unsquashfs is broken... (fails to unsquashfs *many* core tcz files)
 # https://github.com/plougher/squashfs-tools/releases
 # updated via "update.sh"
-ENV SQUASHFS_VERSION 4.5.1
+ENV SQUASHFS_VERSION 4.6.1
 RUN wget -O squashfs.tgz "https://github.com/plougher/squashfs-tools/archive/$SQUASHFS_VERSION.tar.gz"; \
 	tar --directory=/usr/src --extract --file=squashfs.tgz; \
 	make -C "/usr/src/squashfs-tools-$SQUASHFS_VERSION/squashfs-tools" \
 		-j "$(nproc)" \
-# https://github.com/plougher/squashfs-tools/blob/4.5.1/squashfs-tools/Makefile#L1
+# https://github.com/plougher/squashfs-tools/blob/4.6.1/squashfs-tools/Makefile#L1
 		GZIP_SUPPORT=1 \
 		XZ_SUPPORT=1 \
 		LZO_SUPPORT=1 \
@@ -187,7 +187,7 @@ ENV LINUX_GPG_KEYS \
 		AC2B29BD34A6AFDDB3F68F35E7BFC8EC95861109
 
 # updated via "update.sh"
-ENV LINUX_VERSION 6.1.23
+ENV LINUX_VERSION 6.1.24
 
 RUN wget -O /linux.tar.xz "https://cdn.kernel.org/pub/linux/kernel/v${LINUX_VERSION%%.*}.x/linux-${LINUX_VERSION}.tar.xz"; \
 	wget -O /linux.tar.asc "https://cdn.kernel.org/pub/linux/kernel/v${LINUX_VERSION%%.*}.x/linux-${LINUX_VERSION}.tar.sign"; \
@@ -387,7 +387,7 @@ RUN tcl-tce-load open-vm-tools; \
 
 # https://www.parallels.com/products/desktop/download/
 # updated via "update.sh"
-ENV PARALLELS_VERSION 18.1.1-53328
+ENV PARALLELS_VERSION 18.2.0-53488
 
 RUN wget -O /parallels.tgz "https://download.parallels.com/desktop/v${PARALLELS_VERSION%%.*}/$PARALLELS_VERSION/ParallelsTools-$PARALLELS_VERSION-boot2docker.tar.gz"; \
 	mkdir /usr/src/parallels; \
