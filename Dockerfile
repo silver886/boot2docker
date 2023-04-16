@@ -325,9 +325,7 @@ RUN tcl-tce-load \
 		acpid \
 		bash-completion \
 		ca-certificates \
-		curl \
 		e2fsprogs \
-		git \
 		iproute2 \
 		iptables \
 		ncursesw-terminfo \
@@ -336,7 +334,6 @@ RUN tcl-tce-load \
 		openssl-1.1.1 \
 		parted \
 		procps-ng \
-		rsync \
 		tar \
 		util-linux \
 		xz
