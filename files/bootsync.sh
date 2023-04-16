@@ -49,11 +49,11 @@ if grep -qi vmware /sys/class/dmi/id/sys_vendor 2>/dev/null; then
 	vmtoolsd --background /var/run/vmtoolsd.pid
 	# TODO evaluate /usr/local/etc/init.d/open-vm-tools further (does more than this short blurb, and doesn't invoke vmhgfs-fuse)
 fi
+/usr/local/etc/init.d/prltoolsd start
+/etc/init.d/xe-linux-distribution start
 if modprobe hv_utils > /dev/null 2>&1; then
 	hv_kvp_daemon
 fi
-/usr/local/etc/init.d/prltoolsd start
-/etc/init.d/xe-linux-distribution start
 if grep -qi qemu /sys/class/dmi/id/sys_vendor 2>/dev/null; then
 	qemu-ga --daemonize -m virtio-serial -p /dev/virtio-ports/org.qemu.guest_agent.0
 fi

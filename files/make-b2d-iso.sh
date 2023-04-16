@@ -38,13 +38,14 @@ mkdir -p /tmp/stats
 
 	echo "- Tiny Core Linux [v$TCL_VERSION](https://forum.tinycorelinux.net/index.php?board=31.0)"
 
-	echo "- Parallels Tools v$PARALLELS_VERSION" # https://github.com/boot2docker/boot2docker/pull/1332#issuecomment-420273330
+	echo "- VirtualBox Guest Additions [v$VBOX_VERSION](https://download.virtualbox.org/virtualbox/$VBOX_VERSION/)"
 
 	ovtUrl="https://distro.ibiblio.org/tinycorelinux/$TCL_MAJOR/x86_64/tcz/open-vm-tools.tcz.info"
-	ovtVersion="$(wget -O- $ovtUrl | grep ^Version: | sed -r -e 's/Version:\t//g' -e 's/ (.*)//g')"
+	ovtVersion="$(wget -O- $ovtUrl | grep ^Version: | sed -r -e 's/Version:|\s//g' -e 's/\(.*\)//g')"
 	echo "- VMware Tools (\`open-vm-tools\`) [v$ovtVersion]($ovtUrl)"
 
-	echo "- VirtualBox Guest Additions [v$VBOX_VERSION](https://download.virtualbox.org/virtualbox/$VBOX_VERSION/)"
+	ptUrl="https://download.parallels.com/desktop/v$(echo '18.2.0-53488' | sed -r -e 's|\..*||g')/docs/en_US/Parallels%20Desktop%20User%27s%20Guide/39658.htm"
+	echo "- Parallels Tools [v$PARALLELS_VERSION]($ptUrl)" # https://github.com/boot2docker/boot2docker/pull/1332#issuecomment-420273330
 
 	echo "- XenServer Tools (\`xe-guest-utilities\`) [v$XEN_VERSION](https://github.com/xenserver/xe-guest-utilities/tree/v$XEN_VERSION)"
 
