@@ -81,10 +81,6 @@ RUN for mirror in $TCL_MIRRORS; do \
 		echo '# https://1.1.1.1/'; \
 		echo 'nameserver 1.1.1.1'; \
 		echo 'nameserver 1.0.0.1'; \
-		echo; \
-		echo '# https://developers.google.com/speed/public-dns/'; \
-		echo 'nameserver 8.8.8.8'; \
-		echo 'nameserver 8.8.4.4'; \
 	} > etc/resolv.conf; \
 	cp etc/resolv.conf etc/resolv.conf.b2d; \
 	{ \
@@ -187,7 +183,7 @@ ENV LINUX_GPG_KEYS \
 		AC2B29BD34A6AFDDB3F68F35E7BFC8EC95861109
 
 # updated via "update.sh"
-ENV LINUX_VERSION 6.1.28
+ENV LINUX_VERSION 6.1.29
 
 RUN wget -O /linux.tar.xz "https://cdn.kernel.org/pub/linux/kernel/v${LINUX_VERSION%%.*}.x/linux-${LINUX_VERSION}.tar.xz"; \
 	wget -O /linux.tar.asc "https://cdn.kernel.org/pub/linux/kernel/v${LINUX_VERSION%%.*}.x/linux-${LINUX_VERSION}.tar.sign"; \
@@ -384,7 +380,7 @@ RUN tcl-tce-load open-vm-tools; \
 
 # https://www.parallels.com/products/desktop/download/
 # updated via "update.sh"
-ENV PARALLELS_VERSION 18.2.0-53488
+ENV PARALLELS_VERSION 18.3.0-53606
 
 RUN wget -O /parallels.tgz "https://download.parallels.com/desktop/v${PARALLELS_VERSION%%.*}/$PARALLELS_VERSION/ParallelsTools-$PARALLELS_VERSION-boot2docker.tar.gz"; \
 	mkdir /usr/src/parallels; \
@@ -454,7 +450,7 @@ RUN wget -O usr/local/sbin/cgroupfs-mount "https://github.com/tianon/cgroupfs-mo
 
 # https://download.docker.com/linux/static/stable/x86_64/
 # updated via "update.sh"
-ENV DOCKER_VERSION 23.0.6
+ENV DOCKER_VERSION 24.0.0
 
 # Get the Docker binaries with version that matches our boot2docker version.
 RUN DOCKER_CHANNEL='stable'; \

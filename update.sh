@@ -11,7 +11,7 @@ mirrors=(
 # https://www.kernel.org/
 kernelBase='6.1'
 # https://download.docker.com/linux/static/stable/x86_64/
-dockerBase='23.0'
+dockerBase='24.0'
 
 # avoid issues with slow Git HTTP interactions (*cough* sourceforge *cough*)
 export GIT_HTTP_LOW_SPEED_LIMIT='100'
