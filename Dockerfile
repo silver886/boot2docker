@@ -416,6 +416,9 @@ RUN make -C /usr/src/linux/tools/hv hv_kvp_daemon; \
 	cp /usr/src/linux/tools/hv/hv_kvp_daemon usr/local/sbin/; \
 	tcl-chroot hv_kvp_daemon --help || [ "$?" = 1 ]
 
+# Windows Subsystem for Linux config for Windows 11 and Server 2022 and later
+COPY files/wsl.conf etc/wsl.conf
+
 # TCL includes QEMU's guest agent 2.0.2+ (no reason to compile that ourselves)
 RUN qemuTemp="$(mktemp -d)"; \
 	pushd "$qemuTemp"; \
