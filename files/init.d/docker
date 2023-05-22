@@ -31,6 +31,11 @@ _backwards_compat_should_remote() {
 		return 0
 	fi
 
+	# wsl drivers don't create a disk image
+	if [ -e /proc/sys/fs/binfmt_misc/WSLInterop ]; then
+		return 0
+	fi
+
 	return 1
 }
 
