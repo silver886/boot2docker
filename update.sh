@@ -127,12 +127,15 @@ seds+=(
 )
 
 parallelsVersion="$(
-	wget -qO- "https://download.parallels.com/website_links/$(
-		wget -qO- https://download.parallels.com/website_links/desktop/index.json \
-			| jq -r 'to_entries | sort_by(.key) | reverse | .[0].value.builds.en_US'
-	)" \
-	| grep -E '.*ParallelsDesktop-([0-9.-]+).dmg.*' \
-	| sed -re 's|.*ParallelsDesktop-([0-9.-]+).dmg.*|\1|'
+	command wget -SO- --spider "$(
+		wget -qO- "https://download.parallels.com/website_links/$(
+			wget -qO- https://download.parallels.com/website_links/desktop/index.json \
+				| jq -r 'to_entries | sort_by(.key) | reverse | .[0].value.builds.en_US'
+		)" \
+		| jq -r '.[] | select(.category.name | startswith("Parallels Desktop")) | .contents[] | select(.name | startswith("Parallels Desktop")) | .files.DMG'
+	)" 2>&1 >/dev/null \
+	| grep -oE 'https://download.parallels.com/desktop/.* \[following]' \
+	| sed -re 's|.*/([0-9.-]+)/.*|\1|'
 )"
 seds+=(
 	-e 's!^(ENV PARALLELS_VERSION).*!\1 '"$parallelsVersion"'!'
